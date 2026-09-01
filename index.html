@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دیجیتال مارکت | فروشگاه موبایل</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&display=swap');
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Vazirmatn', system-ui, sans-serif; background: #FAFAF8; color: #1c1e26; }
+header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid #eee; position: sticky; top: 0; background: #FAFAF8; z-index: 10; flex-wrap: wrap; gap: 10px; }
+.logo { font-weight: 800; font-size: 20px; cursor: pointer; }
+.logo span { color: #FF4D2E; }
+nav { display: flex; gap: 4px; flex-wrap: wrap; }
+nav button { background: none; border: none; font-family: inherit; font-size: 15px; cursor: pointer; padding: 6px 10px; font-weight: 600; color: #1c1e26; }
+nav button.active { color: #FF4D2E; }
+#cartBtn { background: #1c1e26; color: #fff; border: none; border-radius: 999px; padding: 8px 14px; font-size: 15px; cursor: pointer; }
+#cartBtn.bump { animation: bump .5s ease; }
+@keyframes bump { 0%{transform:scale(1)} 30%{transform:scale(1.3) rotate(-8deg)} 60%{transform:scale(.95) rotate(6deg)} 100%{transform:scale(1)} }
+#cartCount { background: #FF4D2E; color: #fff; border-radius: 999px; font-size: 12px; padding: 1px 7px; margin-right: 4px; }
+main { max-width: 980px; margin: 0 auto; padding: 24px 20px 60px; }
+.hero { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; padding: 40px 0; }
+.hero h1 { font-size: 36px; line-height: 1.35; font-weight: 800; margin-bottom: 14px; }
+.hero p { font-size: 17px; color: #555; margin-bottom: 22px; }
+.cta { background: #FF4D2E; color: #fff; border: none; padding: 13px 26px; border-radius: 999px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.cta:hover { filter: brightness(1.05); }
+.heroPhones { display: flex; gap: 18px; font-size: 54px; }
+.floatPhone { animation: floaty 3s ease-in-out infinite; }
+.floatPhone:nth-child(2) { animation-delay: .4s; }
+.floatPhone:nth-child(3) { animation-delay: .8s; }
+@keyframes floaty { 0%,100%{transform:translateY(0) rotate(-4deg);} 50%{transform:translateY(-16px) rotate(4deg);} }
+.brandGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; margin-top: 10px; }
+.brandCard { background: #fff; border: 2px solid; border-radius: 18px; padding: 20px; cursor: pointer; transition: transform .2s ease; }
+.brandCard:hover { transform: translateY(-4px) rotate(-1deg); }
+.brandCard h3 { font-size: 22px; margin-bottom: 6px; }
+.brandCard p { color: #777; font-size: 14px; }
+.sectionTitle { font-size: 26px; font-weight: 800; margin: 10px 0 20px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 16px; }
+.productCard { background: #fff; border: 1px solid #eee; border-radius: 16px; padding: 18px; text-align: center; transition: transform .2s ease, box-shadow .2s ease; }
+.productCard:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,0,0,.06); }
+.productEmoji { font-size: 40px; transition: transform .3s ease; }
+.productCard:hover .productEmoji { transform: rotate(-10deg) scale(1.15); }
+.productCard .name { font-weight: 700; font-size: 16px; margin-top: 6px; }
+.productCard .storage { color: #888; font-size: 13px; margin-bottom: 8px; }
+.productCard .price { font-weight: 800; font-size: 16px; margin-bottom: 10px; }
+.productCard .stockOut { color: #d43; font-size: 13px; margin-bottom: 8px; }
+.addBtn { border: none; color: #fff; padding: 9px 14px; border-radius: 999px; font-size: 13px; font-weight: 700; cursor: pointer; width: 100%; }
+.addBtn:disabled { background: #ccc !important; cursor: not-allowed; }
+.cartRow { display: flex; align-items: center; justify-content: space-between; background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 12px 16px; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.qtyBox { display: flex; align-items: center; gap: 10px; }
+.qtyBox button { width: 26px; height: 26px; border-radius: 50%; border: 1px solid #ddd; background: #fff; cursor: pointer; font-size: 16px; }
+.cartTotal { text-align: left; font-size: 20px; font-weight: 800; margin: 20px 0; }
+.empty { text-align: center; padding: 60px 0; color: #888; font-size: 17px; }
+input, textarea { border: 1px solid #ddd; border-radius: 10px; padding: 10px 12px; font-size: 14px; font-family: inherit; width: 100%; }
+.formCol { display: flex; flex-direction: column; gap: 10px; max-width: 420px; margin-bottom: 16px; }
+.payBox { background: #fff7f2; border: 1px dashed #FF4D2E; border-radius: 14px; padding: 16px; margin: 20px 0; font-size: 14px; line-height: 1.9; }
+.adminTabs, .brandTabs { display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid #eee; flex-wrap: wrap; }
+.adminTabs button, .brandTabs button { background: none; border: none; padding: 10px 14px; font-size: 15px; font-weight: 600; cursor: pointer; color: #555; }
+.tabActive { color: #FF4D2E !important; border-bottom: 2px solid #FF4D2E; }
+.adminRow { display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 10px 14px; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+.delBtn { background: #ffece8; color: #d43; border: none; padding: 6px 12px; border-radius: 8px; font-size: 13px; cursor: pointer; }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #1c1e26; color: #fff; padding: 10px 20px; border-radius: 999px; font-size: 14px; z-index: 50; }
+footer { text-align: center; color: #999; font-size: 13px; padding: 20px 0; border-top: 1px solid #eee; }
+.exportBox textarea { height: 160px; font-family: monospace; direction: ltr; text-align: left; }
+.hint { color: #888; font-size: 13px; line-height: 1.8; margin-bottom: 14px; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+  تنظیمات فروشگاه — این بخش رو با اطلاعات خودت پر کن
+============================================================ -->
+<script>
+const CONFIG = {
+  siteName: "دیجیتال مارکت",
+  whatsappNumber: "989966860019",
+  cardNumber: "6219-8618-0508-0933",
+  cardOwner: "علی عباسی نسب",
+  sheba: "IR18 0560 6118 2800 6065 2311 01",
+  adminPassword: "225522"
+};
+
+const DEFAULT_PRODUCTS = {
+  samsung: [
+    { id: "s1", name: "Galaxy S24 Ultra", storage: "256GB", price: 62500000, emoji: "📱", stock: 5 },
+    { id: "s2", name: "Galaxy A55", storage: "128GB", price: 21800000, emoji: "📱", stock: 8 },
+    { id: "s3", name: "Galaxy Z Flip6", storage: "256GB", price: 54900000, emoji: "📱", stock: 3 },
+    { id: "s4", name: "Galaxy A15", storage: "128GB", price: 12400000, emoji: "📱", stock: 10 }
+  ],
+  xiaomi: [
+    { id: "x1", name: "Xiaomi 14", storage: "256GB", price: 39900000, emoji: "📲", stock: 6 },
+    { id: "x2", name: "Redmi Note 13 Pro", storage: "256GB", price: 17200000, emoji: "📲", stock: 9 },
+    { id: "x3", name: "POCO X6 Pro", storage: "512GB", price: 19500000, emoji: "📲", stock: 4 },
+    { id: "x4", name: "Redmi 13C", storage: "128GB", price: 8900000, emoji: "📲", stock: 12 }
+  ],
+  apple: [
+    { id: "a1", name: "iPhone 15 Pro Max", storage: "256GB", price: 89900000, emoji: "🍏", stock: 2 },
+    { id: "a2", name: "iPhone 15", storage: "128GB", price: 54900000, emoji: "🍏", stock: 5 },
+    { id: "a3", name: "iPhone 13", storage: "128GB", price: 38500000, emoji: "🍏", stock: 6 },
+    { id: "a4", name: "iPhone SE", storage: "64GB", price: 24900000, emoji: "🍏", stock: 7 }
+  ]
+};
+
+const BRANDS = {
+  samsung: { label: "سامسونگ", accent: "#1428A0", tag: "گلکسی، صفحه بزرگ" },
+  xiaomi: { label: "شیائومی", accent: "#FF6900", tag: "قدرت بالا، قیمت خوب" },
+  apple: { label: "اپل", accent: "#3A3A3C", tag: "آیفون، ساخت پرمیوم" }
+};
+</script>
+<!-- ============================================================ -->
+
+<header>
+  <div class="logo" onclick="goPage('home')"><span>●</span> دیجیتال مارکت</div>
+  <nav id="navBrands"></nav>
+  <button id="cartBtn" onclick="goPage('cart')">🛒 <span id="cartCount">0</span></button>
+</header>
+
+<div id="toast" class="toast" style="display:none"></div>
+
+<main id="main"></main>
+
+<footer>دیجیتال مارکت — فروش تخصصی موبایل سامسونگ، شیائومی و اپل | پرداخت: کارت‌به‌کارت</footer>
+
+<script>
+// ---------- state ----------
+let page = "home";
+let currentBrand = "samsung";
+let products = JSON.parse(localStorage.getItem("dm_products") || "null") || DEFAULT_PRODUCTS;
+let cart = JSON.parse(localStorage.getItem("dm_cart") || "[]");
+let adminAuthed = false;
+
+function save() {
+  localStorage.setItem("dm_products", JSON.stringify(products));
+  localStorage.setItem("dm_cart", JSON.stringify(cart));
+}
+function toman(n) { return n.toLocaleString("fa-IR") + " تومان"; }
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.style.display = "block";
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => t.style.display = "none", 1800);
+}
+function goPage(p, brand) {
+  page = p;
+  if (brand) currentBrand = brand;
+  render();
+  window.scrollTo(0,0);
+}
+
+// ---------- nav ----------
+function renderNav() {
+  const nav = document.getElementById("navBrands");
+  nav.innerHTML = "";
+  Object.entries(BRANDS).forEach(([key, b]) => {
+    const btn = document.createElement("button");
+    btn.textContent = b.label;
+    btn.style.color = (page === "brand" && currentBrand === key) ? b.accent : "";
+    btn.onclick = () => goPage("brand", key);
+    nav.appendChild(btn);
+  });
+  const adminBtn = document.createElement("button");
+  adminBtn.textContent = "مدیریت";
+  adminBtn.onclick = () => goPage("admin");
+  nav.appendChild(adminBtn);
+}
+
+function updateCartCount() {
+  document.getElementById("cartCount").textContent = cart.reduce((s,i)=>s+i.qty,0);
+}
+
+// ---------- cart ops ----------
+function addToCart(brandKey, product) {
+  const existing = cart.find(i => i.id === product.id);
+  if (existing) existing.qty++;
+  else cart.push({ ...product, brand: brandKey, qty: 1 });
+  save(); updateCartCount();
+  const btn = document.getElementById("cartBtn");
+  btn.classList.add("bump");
+  setTimeout(() => btn.classList.remove("bump"), 500);
+  showToast(product.name + " به سبد اضافه شد");
+}
+function changeQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+  save(); render();
+}
+
+// ---------- pages ----------
+function render() {
+  renderNav();
+  updateCartCount();
+  const main = document.getElementById("main");
+  if (page === "home") main.innerHTML = homeHTML();
+  else if (page === "brand") main.innerHTML = brandHTML(currentBrand);
+  else if (page === "cart") main.innerHTML = cartHTML();
+  else if (page === "admin") { main.innerHTML = adminHTML(); attachAdminEvents(); }
+  attachCommonEvents();
+}
+
+function homeHTML() {
+  return `
+    <section class="hero">
+      <div>
+        <h1>گوشی مورد علاقه‌ت رو<br>همین امروز سفارش بده</h1>
+        <p>سامسونگ، شیائومی و اپل — قیمت به‌روز، پرداخت کارت‌به‌کارت، هماهنگی سریع در واتساپ.</p>
+        <button class="cta" onclick="goPage('brand','samsung')">مشاهده گوشی‌ها</button>
+      </div>
+      <div class="heroPhones">
+        <div class="floatPhone">📱</div><div class="floatPhone">📲</div><div class="floatPhone">🍏</div>
+      </div>
+    </section>
+    <div class="brandGrid">
+      ${Object.entries(BRANDS).map(([key,b]) => `
+        <div class="brandCard" style="border-color:${b.accent}" onclick="goPage('brand','${key}')">
+          <h3 style="color:${b.accent}">${b.label}</h3>
+          <p>${b.tag}</p>
+        </div>`).join("")}
+    </div>`;
+}
+
+function brandHTML(key) {
+  const b = BRANDS[key];
+  const list = products[key] || [];
+  return `
+    <h2 class="sectionTitle" style="color:${b.accent}">${b.label}</h2>
+    <div class="grid">
+      ${list.map(p => `
+        <div class="productCard">
+          <div class="productEmoji">${p.emoji}</div>
+          <div class="name">${p.name}</div>
+          <div class="storage">${p.storage}</div>
+          <div class="price" style="color:${b.accent}">${toman(p.price)}</div>
+          ${p.stock > 0
+            ? `<button class="addBtn" style="background:${b.accent}" data-brand="${key}" data-id="${p.id}">افزودن به سبد</button>`
+            : `<div class="stockOut">ناموجود</div><button class="addBtn" disabled>ناموجود</button>`}
+        </div>`).join("")}
+    </div>`;
+}
+
+function cartHTML() {
+  if (cart.length === 0) return `<div class="empty">سبد خریدت خالیه. یه گوشی انتخاب کن!</div>`;
+  const total = cart.reduce((s,i)=>s+i.qty*i.price,0);
+  return `
+    <h2 class="sectionTitle">سبد خرید</h2>
+    ${cart.map(i => `
+      <div class="cartRow">
+        <div>${i.emoji} ${i.name}</div>
+        <div class="qtyBox">
+          <button onclick="changeQty('${i.id}',-1)">−</button>
+          <span>${i.qty}</span>
+          <button onclick="changeQty('${i.id}',1)">+</button>
+        </div>
+        <div style="font-weight:700;color:#FF4D2E">${toman(i.price*i.qty)}</div>
+      </div>`).join("")}
+    <div class="cartTotal">جمع کل: ${toman(total)}</div>
+    <div class="formCol">
+      <input id="custName" placeholder="نام و نام‌خانوادگی">
+      <input id="custPhone" placeholder="شماره تماس">
+      <textarea id="custAddress" placeholder="آدرس کامل"></textarea>
+    </div>
+    <div class="payBox">
+      💳 پرداخت کارت‌به‌کارت:<br>
+      شماره کارت: <b>${CONFIG.cardNumber}</b><br>
+      به نام: ${CONFIG.cardOwner}<br>
+      شبا: ${CONFIG.sheba}<br><br>
+      بعد از واریز، دکمه زیر رو بزن تا سفارش + رسیدت مستقیم توی واتساپ برای ما ارسال بشه.
+    </div>
+    <button class="cta" onclick="submitOrder(${total})">ارسال سفارش در واتساپ</button>`;
+}
+
+function submitOrder(total) {
+  const name = document.getElementById("custName").value.trim();
+  const phone = document.getElementById("custPhone").value.trim();
+  const address = document.getElementById("custAddress").value.trim();
+  if (!name || !phone || !address) { showToast("لطفا اطلاعات رو کامل کن"); return; }
+  let msg = `سفارش جدید از ${CONFIG.siteName}\n\n`;
+  cart.forEach(i => msg += `${i.emoji} ${i.name} (${i.storage}) × ${i.qty} = ${toman(i.price*i.qty)}\n`);
+  msg += `\nجمع کل: ${toman(total)}\n\nنام: ${name}\nتماس: ${phone}\nآدرس: ${address}\n\nرسید واریز رو همینجا می‌فرستم.`;
+  window.open(`https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(msg)}`, "_blank");
+  cart = []; save();
+  showToast("سفارش ثبت شد، به واتساپ منتقل شدی");
+  setTimeout(() => goPage("home"), 1200);
+}
+
+// ---------- admin ----------
+function adminHTML() {
+  if (!adminAuthed) {
+    return `
+      <h2 class="sectionTitle">ورود مدیر</h2>
+      <div class="formCol">
+        <input id="pinInput" type="password" placeholder="رمز مدیریت">
+        <button class="cta" onclick="tryLogin()">ورود</button>
+      </div>`;
+  }
+  return `
+    <h2 class="sectionTitle">پنل مدیریت</h2>
+    <div class="adminTabs">
+      <button class="${adminTab==='products'?'tabActive':''}" onclick="setAdminTab('products')">محصولات و موجودی</button>
+      <button class="${adminTab==='export'?'tabActive':''}" onclick="setAdminTab('export')">به‌روزرسانی دائمی سایت</button>
+    </div>
+    ${adminTab === 'products' ? productsAdminHTML() : exportAdminHTML()}`;
+}
+
+let adminTab = "products";
+function setAdminTab(t) { adminTab = t; render(); }
+
+function productsAdminHTML() {
+  return `
+    <div class="brandTabs">
+      ${Object.entries(BRANDS).map(([key,b]) => `
+        <button class="${editBrand===key?'tabActive':''}" style="color:${editBrand===key?b.accent:''}" onclick="setEditBrand('${key}')">${b.label}</button>`).join("")}
+    </div>
+    <div class="formCol" style="flex-direction:row;flex-wrap:wrap;max-width:none">
+      <input id="pName" placeholder="نام گوشی" style="flex:1;min-width:140px">
+      <input id="pStorage" placeholder="حافظه" style="flex:1;min-width:100px">
+      <input id="pPrice" placeholder="قیمت (تومان)" style="flex:1;min-width:120px">
+      <input id="pStock" placeholder="موجودی" style="flex:1;min-width:90px">
+      <button class="cta" onclick="addProduct()">افزودن</button>
+    </div>
+    ${(products[editBrand]||[]).map(p => `
+      <div class="adminRow">
+        <span>${p.emoji} ${p.name} — ${p.storage} — ${toman(p.price)} — موجودی: 
+          <input style="width:60px;display:inline-block" value="${p.stock}" onchange="updateStock('${p.id}', this.value)">
+        </span>
+        <button class="delBtn" onclick="removeProduct('${p.id}')">حذف</button>
+      </div>`).join("")}
+    <p class="hint">این تغییرات فقط روی همین مرورگر ذخیره میشه. برای اینکه همه بازدیدکننده‌های سایت این تغییرات رو ببینن، برو به تب «به‌روزرسانی دائمی سایت».</p>`;
+}
+
+let editBrand = "samsung";
+function setEditBrand(k) { editBrand = k; render(); }
+function addProduct() {
+  const name = document.getElementById("pName").value.trim();
+  const storage = document.getElementById("pStorage").value.trim();
+  const price = Number(document.getElementById("pPrice").value);
+  const stock = Number(document.getElementById("pStock").value) || 0;
+  if (!name || !price) { showToast("نام و قیمت رو پر کن"); return; }
+  const emoji = editBrand === "apple" ? "🍏" : editBrand === "xiaomi" ? "📲" : "📱";
+  products[editBrand].push({ id: editBrand[0]+Date.now(), name, storage, price, stock, emoji });
+  save(); render();
+}
+function removeProduct(id) {
+  Object.keys(products).forEach(k => products[k] = products[k].filter(p => p.id !== id));
+  save(); render();
+}
+function updateStock(id, val) {
+  Object.keys(products).forEach(k => {
+    const p = products[k].find(x => x.id === id);
+    if (p) p.stock = Number(val) || 0;
+  });
+  save();
+}
+
+function exportAdminHTML() {
+  return `
+    <p class="hint">
+      این سایت یه فایل ساده‌ست، بدون سرور. یعنی وقتی تو محصول اضافه/کم می‌کنی، فقط روی مرورگر خودت ذخیره میشه.
+      برای اینکه این تغییرات برای <b>همه</b> بازدیدکننده‌ها دائمی بشه، این متن رو کپی کن و جای متغیر
+      <code>DEFAULT_PRODUCTS</code> توی فایل HTML جایگزینش کن، فایل رو ذخیره کن و دوباره توی Netlify آپلودش کن (کمتر از ۱ دقیقه).
+    </p>
+    <div class="exportBox">
+      <textarea readonly>${JSON.stringify(products, null, 2)}</textarea>
+    </div>
+    <button class="cta" onclick="copyExport()">کپی کردن</button>`;
+}
+function copyExport() {
+  const ta = document.querySelector(".exportBox textarea");
+  ta.select(); document.execCommand("copy");
+  showToast("کپی شد");
+}
+
+function tryLogin() {
+  const val = document.getElementById("pinInput").value;
+  if (val === CONFIG.adminPassword) { adminAuthed = true; render(); }
+  else showToast("رمز اشتباهه");
+}
+
+// ---------- event delegation ----------
+function attachCommonEvents() {
+  document.querySelectorAll(".addBtn[data-id]").forEach(btn => {
+    btn.onclick = () => {
+      const brand = btn.getAttribute("data-brand");
+      const id = btn.getAttribute("data-id");
+      const product = products[brand].find(p => p.id === id);
+      addToCart(brand, product);
+    };
+  });
+}
+function attachAdminEvents() {}
+
+render();
+</script>
+</body>
+</html>
